@@ -6,6 +6,7 @@ export {
   ApolloServerPluginUsageReportingOptions,
   SendValuesBaseOptions,
   VariableValueOptions,
+  InlineArgumentOptions,
   ClientInfo,
   GenerateClientInfo,
 } from './options';

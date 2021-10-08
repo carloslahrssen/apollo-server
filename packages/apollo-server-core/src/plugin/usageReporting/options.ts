@@ -11,6 +11,18 @@ import type { Trace } from 'apollo-reporting-protobuf';
 export interface ApolloServerPluginUsageReportingOptions<TContext> {
   //#region Configure exactly which data should be sent to Apollo.
   /**
+    * By default, Apollo Server does not send the values of any GraphQL variables to Apollo's servers, because variable
+   * values often contain the private data of your app's users. If you'd like variable values to be included in traces, set this option.
+   * This option can take several forms:
+   * - { none: true }: don't send any variable values (DEFAULT)
+   * - { all: true}: send all variable values
+   * - { transform: ... }: a custom function for modifying variable values. Keys added by the custom function will
+   *    be removed, and keys removed will be added back with an empty value. For security reasons, if an error occurs within this function, all variable values will be replaced with `[PREDICATE_FUNCTION_ERROR]`.
+   * - { exceptNames: ... }: a case-sensitive list of names of variables whose values should not be sent to Apollo servers
+   * - { onlyNames: ... }: A case-sensitive list of names of variables whose values will be sent to Apollo servers
+   */
+  sendInlineArguments?: InlineArgumentOptions;
+  /**
    * By default, Apollo Server does not send the values of any GraphQL variables to Apollo's servers, because variable
    * values often contain the private data of your app's users. If you'd like variable values to be included in traces, set this option.
    * This option can take several forms:
@@ -236,6 +248,8 @@ type VariableValueTransformOptions = {
   variables: Record<string, any>;
   operationString?: string;
 };
+
+export type InlineArgumentOptions = VariableValueOptions;
 
 export type VariableValueOptions =
   | {
